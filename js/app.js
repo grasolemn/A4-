@@ -5,7 +5,8 @@ if (visitDateEl) {
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth() + 1).padStart(2, '0');
   const dd = String(now.getDate()).padStart(2, '0');
-  visitDateEl.textContent = `收藏日期：${yyyy}.${mm}.${dd}`;
+  const dateValue = visitDateEl.querySelector('.visit-date-value');
+  if (dateValue) dateValue.textContent = `${yyyy}.${mm}.${dd}`;
 }
 
 const imageArea = document.getElementById('imageArea');
