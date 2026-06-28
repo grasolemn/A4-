@@ -1,3 +1,13 @@
+// 自动设置收藏日期
+const visitDateEl = document.getElementById('visitDate');
+if (visitDateEl) {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  visitDateEl.textContent = `收藏日期：${yyyy}.${mm}.${dd}`;
+}
+
 const imageArea = document.getElementById('imageArea');
     const uploadInput = document.getElementById('uploadInput');
     const previewImage = document.getElementById('previewImage');
