@@ -1,0 +1,319 @@
+@font-face {
+      font-family: 'JetBrains Mono';
+      src: url('../fonts/JetBrainsMono-VariableFont_wght.ttf');
+      font-weight: 300;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Source Han Sans CN';
+      src: url('../fonts/SourceHanSansCN-Light.otf');
+      font-weight: 300;
+      font-style: normal;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #3a3a3a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      font-family: 'JetBrains Mono', 'Source Han Sans CN', monospace;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    /* 收据卡片 */
+    .receipt {
+      background: #fff;
+      width: 380px;
+      padding: 72px 28px;
+      position: relative;
+      font-family: 'JetBrains Mono', 'Source Han Sans CN', monospace;
+      font-size: 15px;
+      line-height: 2.0;
+      color: #222;
+      clip-path: polygon(
+        0% 20px, 3.125% 0%, 6.25% 20px, 9.375% 0%, 12.5% 20px, 15.625% 0%, 18.75% 20px, 21.875% 0%, 25% 20px, 28.125% 0%, 31.25% 20px, 34.375% 0%, 37.5% 20px, 40.625% 0%, 43.75% 20px, 46.875% 0%, 50% 20px, 53.125% 0%, 56.25% 20px, 59.375% 0%, 62.5% 20px, 65.625% 0%, 68.75% 20px, 71.875% 0%, 75% 20px, 78.125% 0%, 81.25% 20px, 84.375% 0%, 87.5% 20px, 90.625% 0%, 93.75% 20px, 96.875% 0%, 100% 20px,
+        100% calc(100% - 20px), 96.875% 100%, 93.75% calc(100% - 20px), 90.625% 100%, 87.5% calc(100% - 20px), 84.375% 100%, 81.25% calc(100% - 20px), 78.125% 100%, 75% calc(100% - 20px), 71.875% 100%, 68.75% calc(100% - 20px), 65.625% 100%, 62.5% calc(100% - 20px), 59.375% 100%, 56.25% calc(100% - 20px), 53.125% 100%, 50% calc(100% - 20px), 46.875% 100%, 43.75% calc(100% - 20px), 40.625% 100%, 37.5% calc(100% - 20px), 34.375% 100%, 31.25% calc(100% - 20px), 28.125% 100%, 25% calc(100% - 20px), 21.875% 100%, 18.75% calc(100% - 20px), 15.625% 100%, 12.5% calc(100% - 20px), 9.375% 100%, 6.25% calc(100% - 20px), 3.125% 100%, 0% calc(100% - 20px)
+      );
+    }
+
+    /* 分隔线 - 统一单横线 */
+    .separator {
+      border: none;
+      border-top: 1px solid #222;
+      margin: 20px 0;
+    }
+
+    /* Logo */
+    .logo {
+      display: block;
+      width: 280px;
+      margin: 0 auto 24px;
+    }
+
+    /* 标题区域 */
+    .title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 300;
+      margin-bottom: 4px;
+      letter-spacing: 2px;
+      font-family: 'Source Han Sans CN', sans-serif;
+    }
+
+    .date-range {
+      text-align: center;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 300;
+      margin-bottom: 8px;
+      font-family: 'Source Han Sans CN', sans-serif;
+    }
+
+    /* 图片上传区域 */
+    .image-section {
+      margin: 24px 0;
+    }
+
+    .image-placeholder {
+      width: 280px;
+      margin: 0 auto;
+      aspect-ratio: 1 / 1;
+      border: 2px dashed #999;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .image-placeholder:hover {
+      border-color: #555;
+    }
+
+    .image-placeholder.has-image {
+      border: none;
+      background: transparent;
+    }
+
+    .placeholder-text {
+      font-size: 14px;
+      color: #888;
+      text-align: center;
+      padding: 20px;
+      pointer-events: none;
+      font-family: 'Source Han Sans CN', sans-serif;
+    }
+
+    .preview-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      image-rendering: pixelated;
+    }
+
+    .preview-image.active {
+      display: block;
+    }
+
+    .placeholder-text.hidden {
+      display: none;
+    }
+
+    /* 收藏日期 */
+    .visit-date {
+      text-align: center;
+      font-size: 15px;
+      margin: 16px 0;
+    }
+
+    /* 底部文字 */
+    .footer {
+      font-size: 13px;
+      line-height: 1.8;
+      font-family: 'Source Han Sans CN', sans-serif;
+    }
+
+    .footer p {
+      margin-bottom: 4px;
+    }
+
+    .footer .topic {
+      font-weight: 700;
+    }
+
+    /* QR Code 区域 */
+    .qr-section {
+      text-align: center;
+      margin: 28px 0 20px;
+    }
+
+    .qr-code {
+      width: 280px;
+      display: block;
+      margin: 0 auto 12px;
+    }
+
+    .qr-text {
+      font-size: 14px;
+      line-height: 1.6;
+      font-family: 'Source Han Sans CN', sans-serif;
+    }
+
+    /* 操作按钮 */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: 300;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+      width: 140px;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+    }
+
+    .btn-download {
+      background: #db562f;
+      color: #fff;
+    }
+
+    .btn-upload {
+      background: #f5f5f5;
+      color: #333;
+      border: 2px solid #999;
+    }
+
+    /* 隐藏的 canvas 用于处理图片 */
+    #hiddenCanvas {
+      display: none;
+    }
+
+    /* 裁切弹窗 */
+    .crop-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .crop-modal.active {
+      display: flex;
+    }
+
+    .crop-container {
+      background: #222;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .crop-title {
+      color: #fff;
+      font-size: 15px;
+      font-family: 'Source Han Sans CN', sans-serif;
+    }
+
+    .crop-image-wrapper {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+      cursor: crosshair;
+      max-width: 70vw;
+      max-height: 60vh;
+    }
+
+    .crop-image-wrapper img {
+      display: block;
+      max-width: 70vw;
+      max-height: 60vh;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .crop-box {
+      position: absolute;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+      cursor: move;
+      z-index: 10;
+    }
+
+    .crop-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 1px dashed rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+    }
+
+    .crop-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .crop-actions .btn {
+      padding: 10px 24px;
+      font-size: 14px;
+    }
+
+    .btn-confirm {
+      background: #db562f;
+      color: #fff;
+    }
+
+    .btn-cancel {
+      background: #555;
+      color: #fff;
+    }
