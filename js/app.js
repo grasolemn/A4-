@@ -252,8 +252,8 @@ const imageArea = document.getElementById('imageArea');
         }).then(async (canvas) => {
           document.body.removeChild(clone);
 
-          const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
-          const file = new File([blob], 'receipt.png', { type: 'image/png' });
+          const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg'));
+          const file = new File([blob], 'receipt.jpg', { type: 'image/jpeg' });
 
           if (navigator.share && navigator.canShare) {
             if (navigator.canShare({ files: [file] })) {
