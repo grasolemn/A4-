@@ -13,6 +13,7 @@ const imageArea = document.getElementById('imageArea');
     const uploadInput = document.getElementById('uploadInput');
     const previewImage = document.getElementById('previewImage');
     const placeholderText = document.getElementById('placeholderText');
+    const placeholderPlus = document.getElementById('placeholderPlus');
     const downloadBtn = document.getElementById('downloadBtn');
     const hiddenCanvas = document.getElementById('hiddenCanvas');
     const ctx = hiddenCanvas.getContext('2d');
@@ -222,6 +223,7 @@ const imageArea = document.getElementById('imageArea');
       previewImage.src = hiddenCanvas.toDataURL('image/png');
       previewImage.classList.add('active');
       placeholderText.classList.add('hidden');
+      if (placeholderPlus) placeholderPlus.style.display = 'none';
       imageArea.classList.add('has-image');
     }
 
@@ -249,10 +251,22 @@ const imageArea = document.getElementById('imageArea');
           backgroundColor: '#ffffff'
         }).then((canvas) => {
           document.body.removeChild(clone);
-          const link = document.createElement('a');
-          link.download = 'receipt.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
+          const dataUrl = canvas.toDataURL('image/png');
+          const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+
+          if (isWeChat) {
+            const win = window.open('');
+            if (win) {
+              win.document.write('<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>保存图片</title></head><body style="margin:0;padding:20px;text-align:center;background:#f5f5f5;"><img src="' + dataUrl + '" style="max-width:100%;"><p style="margin-top:16px;font-size:16px;color:#333;">长按图片保存到相册</p></body></html>');
+            } else {
+              alert('请允许弹出窗口后长按图片保存');
+            }
+          } else {
+            const link = document.createElement('a');
+            link.download = 'receipt.png';
+            link.href = dataUrl;
+            link.click();
+          }
         }).catch((err) => {
           document.body.removeChild(clone);
           console.error('下载失败:', err);
