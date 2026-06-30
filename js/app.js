@@ -227,7 +227,7 @@ const imageArea = document.getElementById('imageArea');
       imageArea.classList.add('has-image');
     }
 
-    // 下载 PNG
+    // 分享 PNG
     downloadBtn.addEventListener('click', async () => {
       if (typeof html2canvas === 'undefined') {
         alert('html2canvas 未加载，请刷新页面重试');
@@ -249,32 +249,39 @@ const imageArea = document.getElementById('imageArea');
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff'
-        }).then((canvas) => {
+        }).then(async (canvas) => {
           document.body.removeChild(clone);
-          const dataUrl = canvas.toDataURL('image/png');
-          const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
 
-          if (isWeChat) {
-            const win = window.open('');
-            if (win) {
-              win.document.write('<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>保存图片</title></head><body style="margin:0;padding:20px;text-align:center;background:#f5f5f5;"><img src="' + dataUrl + '" style="max-width:100%;"><p style="margin-top:16px;font-size:16px;color:#333;">长按图片保存到相册</p></body></html>');
-            } else {
-              alert('请允许弹出窗口后长按图片保存');
+          const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+          const file = new File([blob], 'receipt.png', { type: 'image/png' });
+
+          if (navigator.share && navigator.canShare) {
+            if (navigator.canShare({ files: [file] })) {
+              try {
+                await navigator.share({ files: [file] });
+                return;
+              } catch (e) {
+                if (e.name === 'AbortError') return;
+              }
             }
+          }
+
+          // fallback: 展示图片
+          const dataUrl = canvas.toDataURL('image/png');
+          const win = window.open('');
+          if (win) {
+            win.document.write('<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>保存图片</title></head><body style="margin:0;padding:20px;text-align:center;background:#f5f5f5;"><img src="' + dataUrl + '" style="max-width:100%;"><p style="margin-top:16px;font-size:16px;color:#333;">长按图片保存到相册</p></body></html>');
           } else {
-            const link = document.createElement('a');
-            link.download = 'receipt.png';
-            link.href = dataUrl;
-            link.click();
+            alert('请允许弹出窗口后长按图片保存');
           }
         }).catch((err) => {
           document.body.removeChild(clone);
-          console.error('下载失败:', err);
-          alert('下载失败，请重试');
+          console.error('分享失败:', err);
+          alert('分享失败，请重试');
         });
       } catch (e) {
         document.body.removeChild(clone);
         console.error('html2canvas 调用失败:', e);
-        alert('下载失败: ' + e.message);
+        alert('分享失败: ' + e.message);
       }
     });
